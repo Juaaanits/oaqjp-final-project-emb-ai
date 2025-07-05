@@ -13,8 +13,25 @@ def emotion_detector(text_to_analyze):
     # Sending POST request to Watson NLP
     response = requests.post(url, headers=headers, json=input_json)
 
+    if response.status_code == 400:
+        return {
+            'anger': None,
+            'disgust': None,
+            'fear': None,
+            'joy': None,
+            'sadness': None,
+            'dominant_emotion': None
+        }
+
     if response.status_code != 200:
-        return {"error": f"Request failed with status code {response.status_code}"}
+        return {
+            'anger': None,
+            'disgust': None,
+            'fear': None,
+            'joy': None,
+            'sadness': None,
+            'dominant_emotion': None
+        }
 
     #Converting response text to a dictionary
     response_dict = json.loads(response.text)
